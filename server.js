@@ -1,24 +1,33 @@
-let express = require("express");
-let bodyparser = require("body-parser");
-const cors = require("cors");
-const mongoose = require("mongoose");
+//import modules
+const express = require('express')
+const bodyparser = require('body-parser')
+const cors = require('cors')
+const mongoose = require('mongoose')
 //import url
-let url = require("./url");
-let app = express();
-app.use(bodyparser.json());
-app.use(bodyparser.urlencoded({ extended: "false" }));
-app.use(cors());
-mongoose.connect(url, { dbName: "newDb" }).then(
-  () => {
-    console.log("connection established");
-  },
-  (err) => {
-    console.log("connection error", err);
-  }
-);
-const productRoutes = require("../routes/productroutes");
-app.use("/", productRoutes);
-let port = 8080;
+let url = require('./url')
+//create rest object
+let app = express()
+//set JSON as MIME type
+app.use(bodyparser.json())
+//client is not sending form data -> encoding JSON
+app.use(bodyparser.urlencoded({ extended: false }))
+//enable CORS -> Cross Origine Resource Sharing -> communication among various ports
+app.use(cors())
+//connect to mongodb
+mongoose.connect(url,{dbName:"newDb"})
+    .then(()=>{
+        console.log('Connection Success')
+    },
+    (errRes)=>{
+        console.log('Connection Failed :- ',errRes)
+    })
+    //import routes
+    const productRoutes = require('./routes/productroutes')
+    //use routes
+    app.use("/", productRoutes)
+//create port
+let port = 8080
+//assign port no
 app.listen(port, () => {
-  console.log("listening on port:", port);
-});
+    console.log('Server listening port no:- ', port)
+})
