@@ -16,7 +16,7 @@ mongoose.connect(url, { dbName: "newDb" }).then(
     console.log("connection error", err);
   }
 );
-const productRoutes = require("../mangoose_example/routes/productroutes");
+const productRoutes = require("../routes/productroutes");
 app.use("/", productRoutes);
 let port = 8080;
 app.listen(port, () => {
